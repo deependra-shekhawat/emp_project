@@ -1,22 +1,18 @@
 const mongoose = require("mongoose");
+require("dotenv").config(); // Load environment variables from .env file
 
-// here we connect the odm(object document maper) mongoose to the dbms mongodb.
-// mongoose.connect("mongodb+srv://employee-system-user:employee-system-password@employee-system-0.o4qxi.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", 
-mongoose.connect("mongodb://localhost:27017/EmployeeFeedback",{
+const connectionString = process.env.DB_CONNECTION_STRING;
+
+mongoose.connect(connectionString, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
+const db = mongoose.connection;
 
-
-
-const db = mongoose.connection; // db store the connection
-
-// cheacking the connection
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", function () {
   console.log("DATABASE connection is Established");
 });
 
-// exporting the connection.
 module.exports = db;
